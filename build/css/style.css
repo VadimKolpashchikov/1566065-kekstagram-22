@@ -150,6 +150,11 @@ main {
   border: none;
 }
 
+.img-filters__button:hover,
+.img-filters__button:focus {
+  color: #ff4e4e;
+}
+
 .img-filters__button:active,
 .img-filters__button--active {
   color: #ff4e4e;
@@ -1415,4 +1420,8 @@ main {
 
 .hidden {
   display: none;
+}
+
+.input_error {
+  outline: 3px solid #8D1E26;
 }

@@ -1,6 +1,5 @@
 import {showBigPicture} from './show-big-picture'
-
-const PICTURES_COUNT = 10;
+import {filterPictures} from './picture-filters.js'
 
 const taskTemplatePicture = document.querySelector('#picture').content;
 const templatePicture = taskTemplatePicture.querySelector('.picture');
@@ -8,9 +7,16 @@ const picturesContainer = document.querySelector('.pictures')
 
 
 
-const showPicture = (items) => {
+const showPicture = (items , defaultData) => {
+  const selectedPictures = picturesContainer.querySelectorAll('.picture');
+  if (selectedPictures.length !== 0) {
+    selectedPictures.forEach((selectedPicture) => {
+      selectedPicture.remove();
+    });
+  }
+  const filteredPicture = filterPictures(items, defaultData);
   const picturesListFragment = document.createDocumentFragment();
-  items.forEach((item) => {
+  filteredPicture.forEach((item) => {
     const pictureClone = templatePicture.cloneNode(true);
     const pictureImg = pictureClone.querySelector('.picture__img');
     const pictureComments = pictureClone.querySelector('.picture__comments');

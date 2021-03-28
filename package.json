@@ -20,7 +20,9 @@
     "webpack-cli": "4.5.0"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "nouislider": "14.6.4"
+  },
   "scripts": {
     "start": "browser-sync start --server \"build/\" --no-ui --files \"source/**/*.js\"",
     "test": "eslint source/js/",
