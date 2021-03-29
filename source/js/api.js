@@ -23,8 +23,8 @@ const sendData = (data, onSuccess, successMessage, errorMessage) => {
   )
     .then((response) => {
       if (response.ok) {
-        onSuccess();
         successMessage();
+        onSuccess();
       }
     })
     .catch(() => {

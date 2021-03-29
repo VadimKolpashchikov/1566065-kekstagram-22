@@ -16,11 +16,11 @@ const closeWithKey = (evt) => {
   }
 };
 
-const deactivateEsc = () => {
+const onFocusoutDeactivateEsc = () => {
   document.removeEventListener('keydown', closeWithKey);
 };
 
-const activateEsc = () => {
+const onFocusinActivateEsc = () => {
   document.addEventListener('keydown', closeWithKey);
 };
 
@@ -46,15 +46,14 @@ const splitHashtagsString = (stringToSplit, separator) => {
       } else if (REGULAR.test(item.slice(1, item.length))) {
         inputHashtags.setCustomValidity('Хэш-тег состоит из букв латинского алфавита и чисел');
         return false
+      } else if (arrayOfHashtags.length > 5) {
+        inputHashtags.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+        return false
       } else if (Array.from(new Set(arrayOfHashtags)).length !== arrayOfHashtags.length) {
         inputHashtags.setCustomValidity('Один и тот же хэш-тег не может быть использован дважды');
         return false
-      } else if (arrayOfHashtags.length >= 5) {
-        inputHashtags.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
-        return false
-      } else {
-        return true
       }
+      return true
     })
   ) {removeInputError();
     inputHashtags.setCustomValidity('');
@@ -73,27 +72,28 @@ const removeInputError = () => {
   inputHashtags.classList.remove('input_error')
 }
 
-const collectHashtagsValidation = () => {
+const collectOnInputHashtagsValidation = () => {
   const inputHashtagsText = inputHashtags.value;
   splitHashtagsString(inputHashtagsText, SPACE);
   reportValidity()
 }
 
 const addValidation = () => {
-  inputHashtags.addEventListener('input', collectHashtagsValidation);
+  inputHashtags.addEventListener('input', collectOnInputHashtagsValidation);
   document.addEventListener('keydown', closeWithKey);
-  inputHashtags.addEventListener('focusin', deactivateEsc);
-  inputHashtags.addEventListener('focusout', activateEsc);
-  inputDescription.addEventListener('focusin', deactivateEsc);
-  inputDescription.addEventListener('focusout', activateEsc);
+  inputHashtags.addEventListener('focusin', onFocusoutDeactivateEsc);
+  inputHashtags.addEventListener('focusout', onFocusinActivateEsc);
+  inputDescription.addEventListener('focusin', onFocusoutDeactivateEsc);
+  inputDescription.addEventListener('focusout', onFocusinActivateEsc);
 };
 
 const removeValidation = () => {
-  inputHashtags.removeEventListener('input', collectHashtagsValidation);
-  inputHashtags.removeEventListener('focusin', deactivateEsc);
-  inputHashtags.removeEventListener('focusout', activateEsc);
-  inputDescription.removeEventListener('focusin', deactivateEsc);
-  inputDescription.removeEventListener('focusout', activateEsc);
+  removeInputError();
+  inputHashtags.removeEventListener('input', collectOnInputHashtagsValidation);
+  inputHashtags.removeEventListener('focusin', onFocusoutDeactivateEsc);
+  inputHashtags.removeEventListener('focusout', onFocusinActivateEsc);
+  inputDescription.removeEventListener('focusin', onFocusoutDeactivateEsc);
+  inputDescription.removeEventListener('focusout', onFocusinActivateEsc);
   document.removeEventListener('keydown', closeWithKey);
 };
 

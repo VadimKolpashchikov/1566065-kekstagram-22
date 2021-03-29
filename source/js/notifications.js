@@ -12,6 +12,7 @@ const taskLoadingErrorMessageTemplate = document.querySelector('#loading-error')
 const loadingErrorMessageTemplate = taskLoadingErrorMessageTemplate.querySelector('.error');
 const loadingErrorMessage = loadingErrorMessageTemplate.cloneNode(true);
 const loadingErrorButton = loadingErrorMessage.querySelector('.error__button');
+const documentMain = document.querySelector('main')
 
 const closeWithKey = (evt) => {
   if (isEscEvent(evt)) {
@@ -39,7 +40,7 @@ const hideMessage = () => {
 };
 
 const showErrorMessage = () => {
-  document.body.append(errorMessage);
+  documentMain.append(errorMessage);
   document.addEventListener('keydown', closeWithKey);
   document.addEventListener('click', closeWithClick);
   errorButton.addEventListener('click', () => {
@@ -48,7 +49,7 @@ const showErrorMessage = () => {
 }
 
 const showSuccessMessage = () => {
-  document.body.append(successMessage);
+  documentMain.append(successMessage);
   document.addEventListener('keydown', closeWithKey);
   document.addEventListener('click', closeWithClick);
   successButton.addEventListener('click', () => {
@@ -57,7 +58,7 @@ const showSuccessMessage = () => {
 }
 
 const showLoadingErrorMessage = () => {
-  document.body.append(loadingErrorMessage);
+  documentMain.append(loadingErrorMessage);
   document.addEventListener('keydown', closeWithKey);
   document.addEventListener('click', closeWithClick);
   loadingErrorButton.addEventListener('click', () => {

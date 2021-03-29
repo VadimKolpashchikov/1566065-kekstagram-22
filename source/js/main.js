@@ -1,6 +1,6 @@
 import {getData} from './api.js'
 import {showPicture} from './show-photos.js'
-import {uploadPicture, SubmitPictureForm} from './upload-picture'
+import {uploadPicture, submitPictureForm} from './upload-picture'
 import {addPicturesFiltersButtons} from './picture-filters.js'
 import {debounce} from './util.js';
 
@@ -19,4 +19,4 @@ getData((data) => {
   ));
 });
 uploadPicture();
-SubmitPictureForm();
+submitPictureForm();
