@@ -20,12 +20,12 @@ const scaleControlSmaller = imgUploadScale.querySelector('.scale__control--small
 const scaleControlBigger = imgUploadScale.querySelector('.scale__control--bigger');
 const scaleControlValue = imgUploadScale.querySelector('.scale__control--value');
 
-const scaleControlPossibleValue = {
-  min: 25,
-  max: 100,
+const ScaleControlPossibleValue = {
+  MIN: 25,
+  MAX: 100,
 }
 
-const uploadPicture = () => {
+const uploadPictureChangeHandler = () => {
   uploadFileInput.addEventListener('change', () => {
     const file = uploadFileInput.files[0];
     const fileName = file.name.toLowerCase();
@@ -47,9 +47,9 @@ const uploadPicture = () => {
         slider.hide();
         slider.create();
         changeStateBody.createFixed();
-        imgUploadCancelButton.addEventListener('click', closeDownloadWindow);
-        scaleControlSmaller.addEventListener('click', addScaleControlSmallerOnClick);
-        scaleControlBigger.addEventListener('click', addScaleControlBiggerOnClick);
+        imgUploadCancelButton.addEventListener('click', DownloadWindowCloseHandler);
+        scaleControlSmaller.addEventListener('click', onScaleControlSmallerClick);
+        scaleControlBigger.addEventListener('click', onScaleControlBiggerClick);
         effectsList.addEventListener('change', () => slider.configureEffects(imgUploadPreview, effectsList));
         addValidation();
       });
@@ -59,13 +59,13 @@ const uploadPicture = () => {
   });
 };
 
-const closeDownloadWindow = () => {
+const DownloadWindowCloseHandler = () => {
   changeStateBody.createDefault();
   imgUploadForm.reset();
   imgUploadOverlay.classList.add('hidden');
-  imgUploadCancelButton.removeEventListener('click', closeDownloadWindow);
-  scaleControlSmaller.removeEventListener('click', addScaleControlSmallerOnClick);
-  scaleControlBigger.removeEventListener('click', addScaleControlBiggerOnClick);
+  imgUploadCancelButton.removeEventListener('click', DownloadWindowCloseHandler);
+  scaleControlSmaller.removeEventListener('click', onScaleControlSmallerClick);
+  scaleControlBigger.removeEventListener('click', onScaleControlBiggerClick);
   effectsList.removeEventListener('change', () => slider.configureEffects(imgUploadPreview, effectsList));
   imgUploadPreview.removeAttribute('class');
   imgUploadPreview.style.filter = null;
@@ -75,27 +75,27 @@ const closeDownloadWindow = () => {
   removeValidation();
 };
 
-const submitPictureForm = () => {
+const pictureFormSubmitHandler = () => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
 
-    sendData(formData, closeDownloadWindow(), showSuccessMessage, showErrorMessage);
+    sendData(formData, DownloadWindowCloseHandler, showSuccessMessage, showErrorMessage);
   });
 }
 
-const addScaleControlSmallerOnClick = () => {
-  if (parseInt(scaleControlValue.value) > scaleControlPossibleValue.min) {
-    scaleControlValue.value = [parseInt(scaleControlValue.value) - scaleControlPossibleValue.min] + '%' ;
+const onScaleControlSmallerClick = () => {
+  if (parseInt(scaleControlValue.value) > ScaleControlPossibleValue.MIN) {
+    scaleControlValue.value = (parseInt(scaleControlValue.value) - ScaleControlPossibleValue.MIN) + '%' ;
   }
   imgUploadPreview.style.transform = 'scale(' + parseInt(scaleControlValue.value)/100 + ')';
 };
 
-const addScaleControlBiggerOnClick = () => {
-  if (parseInt(scaleControlValue.value) < scaleControlPossibleValue.max) {
-    scaleControlValue.value = (parseInt(scaleControlValue.value) + scaleControlPossibleValue.min) + '%' ;
+const onScaleControlBiggerClick = () => {
+  if (parseInt(scaleControlValue.value) < ScaleControlPossibleValue.MAX) {
+    scaleControlValue.value = (parseInt(scaleControlValue.value) + ScaleControlPossibleValue.MIN) + '%' ;
   }
   imgUploadPreview.style.transform = 'scale(' + parseInt(scaleControlValue.value)/100 + ')';
 };
 
-export {uploadPicture, closeDownloadWindow, submitPictureForm}
+export {uploadPictureChangeHandler, DownloadWindowCloseHandler, pictureFormSubmitHandler}

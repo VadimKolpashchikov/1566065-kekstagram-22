@@ -9,11 +9,11 @@ const getData = (onSuccess) => {
       onSuccess(data);
     })
     .catch(() => {
-      showLoadingErrorMessage()
+      showLoadingErrorMessage();
     });
 };
 
-const sendData = (data, onSuccess, successMessage, errorMessage) => {
+const sendData = (data, dataReset, successMessage, errorMessage) => {
   fetch(
     SERVER_ADDRESS,
     {
@@ -24,11 +24,12 @@ const sendData = (data, onSuccess, successMessage, errorMessage) => {
     .then((response) => {
       if (response.ok) {
         successMessage();
-        onSuccess();
+        dataReset();
       }
     })
     .catch(() => {
       errorMessage();
+      dataReset();
     });
 };
 

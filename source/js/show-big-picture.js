@@ -2,6 +2,7 @@ import {changeStateBody} from './page-states.js';
 import {isEscEvent} from './util.js';
 
 const DEFAULT_COMMENTS_COUNT = 5;
+const COUNTER_ADDITIONAL_COMMENTS = 5;
 
 const bigPicture = document.querySelector('.big-picture');
 const bigPictureContainer = bigPicture.querySelector('.big-picture__img');
@@ -19,7 +20,7 @@ let selectedElementData = null;
 const closeWithKey = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    closeBigPicture();
+    bigPictureCloseHandler();
   }
 };
 
@@ -40,19 +41,19 @@ const showBigPicture = (data) => {
     }
     bigPictureSocialComments.innerHTML = '';
     addSocialComments(data, 0, DEFAULT_COMMENTS_COUNT);
-    bigPictureCommentsLoader.addEventListener('click', addAdditionallyComments);
+    bigPictureCommentsLoader.addEventListener('click', commentsLoadAdditionallyHandler);
     bigPicture.classList.remove('hidden');
     changeStateBody.createFixed();
-    bigPictureClose.addEventListener('click', closeBigPicture);
+    bigPictureClose.addEventListener('click', bigPictureCloseHandler);
     document.addEventListener('keydown', closeWithKey);
   }
 };
 
-const closeBigPicture = () => {
+const bigPictureCloseHandler = () => {
   changeStateBody.createDefault();
   bigPicture.classList.add('hidden');
-  bigPictureClose.removeEventListener('click', closeBigPicture);
-  bigPictureCommentsLoader.removeEventListener('click', addAdditionallyComments);
+  bigPictureClose.removeEventListener('click', bigPictureCloseHandler);
+  bigPictureCommentsLoader.removeEventListener('click', commentsLoadAdditionallyHandler);
   document.removeEventListener('keydown', closeWithKey);
 };
 
@@ -73,9 +74,9 @@ const addSocialComments = (data, commentsStart, commentsEnd) => {
 };
 
 
-const addAdditionallyComments = () => {
+const commentsLoadAdditionallyHandler = () => {
   const lastComment = bigPictureCommentsCountDisplayed.textContent;
-  let newLastComment = Number(lastComment) + 5;
+  let newLastComment = Number(lastComment) + COUNTER_ADDITIONAL_COMMENTS;
   if (newLastComment >= selectedElementData.comments.length) {
     newLastComment = selectedElementData.comments.length;
     bigPictureCommentsLoader.classList.add('hidden');

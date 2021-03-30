@@ -1,5 +1,5 @@
 import {isEscEvent} from './util.js';
-import {closeDownloadWindow} from './upload-picture.js';
+import {DownloadWindowCloseHandler} from './upload-picture.js';
 
 const SPACE = ' ';
 const REGULAR = /\W/;
@@ -12,7 +12,7 @@ const inputDescription = imgUploadText.querySelector('.text__description');
 const closeWithKey = (evt) => {
   if (isEscEvent(evt)) {
     evt.preventDefault();
-    closeDownloadWindow();
+    DownloadWindowCloseHandler();
   }
 };
 
@@ -72,14 +72,14 @@ const removeInputError = () => {
   inputHashtags.classList.remove('input_error')
 }
 
-const collectOnInputHashtagsValidation = () => {
+const onInputHashtagsValidate = () => {
   const inputHashtagsText = inputHashtags.value;
   splitHashtagsString(inputHashtagsText, SPACE);
   reportValidity()
 }
 
 const addValidation = () => {
-  inputHashtags.addEventListener('input', collectOnInputHashtagsValidation);
+  inputHashtags.addEventListener('input', onInputHashtagsValidate);
   document.addEventListener('keydown', closeWithKey);
   inputHashtags.addEventListener('focusin', onFocusoutDeactivateEsc);
   inputHashtags.addEventListener('focusout', onFocusinActivateEsc);
@@ -89,7 +89,7 @@ const addValidation = () => {
 
 const removeValidation = () => {
   removeInputError();
-  inputHashtags.removeEventListener('input', collectOnInputHashtagsValidation);
+  inputHashtags.removeEventListener('input', onInputHashtagsValidate);
   inputHashtags.removeEventListener('focusin', onFocusoutDeactivateEsc);
   inputHashtags.removeEventListener('focusout', onFocusinActivateEsc);
   inputDescription.removeEventListener('focusin', onFocusoutDeactivateEsc);

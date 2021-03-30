@@ -1,6 +1,6 @@
 import {getData} from './api.js'
 import {showPicture} from './show-photos.js'
-import {uploadPicture, submitPictureForm} from './upload-picture'
+import {uploadPictureChangeHandler, pictureFormSubmitHandler} from './upload-picture'
 import {addPicturesFiltersButtons} from './picture-filters.js'
 import {debounce} from './util.js';
 
@@ -18,5 +18,5 @@ getData((data) => {
     RERENDER_DELAY,
   ));
 });
-uploadPicture();
-submitPictureForm();
+uploadPictureChangeHandler();
+pictureFormSubmitHandler();
